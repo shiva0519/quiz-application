@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.Quizz.Entity.Questions;
 import com.Quizz.Repo.QuestionsRepo;
 import com.Quizz.Service.QuestionsServiceImp;
+
+import jakarta.transaction.Transactional;
 
 @Controller
 @RequestMapping("api/questions/")
@@ -56,16 +59,18 @@ public class QuestionController {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("upadted un-successfully");
 		
 	}
-	@DeleteMapping("{questionId}")
-	public ResponseEntity<String> deleteQuestion(@RequestBody Questions que){
-		if(QuesServImp.deleteQuestions(que)) {
-			return ResponseEntity.status(HttpStatus.OK).body("updated successfully");
-		}
-		
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("upadted un-successfully");
-		
+	@DeleteMapping("queId/{questionId}")
+	 @Transactional
+	public ResponseEntity<String> deleteQuestion(@PathVariable int questionId){
+		 boolean isDeleted = QuesServImp.deleteQuestions(questionId);
+		 if (quesRepo.existsById(questionId)) { // Check if the entity exists
+		        quesRepo.deleteById(questionId); // Delete the entity by ID
+	            return ResponseEntity.ok("Question deleted successfully.");
+	        } else {
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Question not found.");
+	        }
 	}
-	 @GetMapping
+	 @GetMapping("getQue")
 	    public ResponseEntity<List<Questions>> getQuestions(
 	            @RequestParam String language,
 	            @RequestParam String difficulty) {

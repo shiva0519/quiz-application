@@ -10,6 +10,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,8 +19,12 @@ import com.Quizz.Repo.QuestionsRepo;
 
 @Service
 public class QuestionsServiceImp implements QuestionsService {
-	@Autowired
 	private QuestionsRepo quesRepo;
+	@Autowired
+	public QuestionsServiceImp(QuestionsRepo quesRepo) {
+		this.quesRepo=quesRepo;
+	}
+	
 
 	@Override
 	public boolean addQuetions(MultipartFile file) throws IOException {
@@ -106,11 +111,13 @@ public class QuestionsServiceImp implements QuestionsService {
 		}
 	}
 	@Override
-	public boolean deleteQuestions(Questions que) {
-		if(quesRepo.deleteAllByQuestionsId(que.getQuestionId())) {
-			return true;
-		}
-		return false;
+	public boolean deleteQuestions(int questionId) {
+		try {
+	        quesRepo.deleteByQuestionId(questionId); // Attempt to delete by ID
+	        return true; // Return true if deletion was successful
+	    } catch (EmptyResultDataAccessException e) {
+	        return false; // Return false if the ID was not found
+	    }
 	}
 	@Override
 	public boolean addQuetion(Questions que) {

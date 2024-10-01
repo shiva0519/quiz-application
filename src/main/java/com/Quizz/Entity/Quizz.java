@@ -1,88 +1,92 @@
 package com.Quizz.Entity;
 
-import java.sql.Date;
+import jakarta.persistence.*;
+import java.util.Date;
 import java.util.List;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
-@Table
 @Entity
+@Table(name = "quizzes")
 public class Quizz {
-	
-	@Id
-	private int quizId;
-	private int userId;
-	private List<Questions> questions;
-	private int score;
-	private int totalQuestions;
-	private int correctAnswers;
-	private double timeTaken;
-	private Date createdAt;
-	public Quizz(int quizId, int userId, List<Questions> questions, int score, int totalQuestions, int correctAnswers,
-			double timeTaken, Date createdAt) {
-		super();
-		this.quizId = quizId;
-		this.userId = userId;
-		this.questions = questions;
-		this.score = score;
-		this.totalQuestions = totalQuestions;
-		this.correctAnswers = correctAnswers;
-		this.timeTaken = timeTaken;
-		this.createdAt = createdAt;
-	}
-	public Quizz() {
-		
-	}
-	public int getQuizId() {
-		return quizId;
-	}
-	public void setQuizId(int quizId) {
-		this.quizId = quizId;
-	}
-	public int getUserId() {
-		return userId;
-	}
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
-	public List<Questions> getQuestions() {
-		return questions;
-	}
-	public void setQuestions(List<Questions> questions) {
-		this.questions = questions;
-	}
-	public int getScore() {
-		return score;
-	}
-	public void setScore(int score) {
-		this.score = score;
-	}
-	public int getTotalQuestions() {
-		return totalQuestions;
-	}
-	public void setTotalQuestions(int totalQuestions) {
-		this.totalQuestions = totalQuestions;
-	}
-	public int getCorrectAnswers() {
-		return correctAnswers;
-	}
-	public void setCorrectAnswers(int correctAnswers) {
-		this.correctAnswers = correctAnswers;
-	}
-	public double getTimeTaken() {
-		return timeTaken;
-	}
-	public void setTimeTaken(double timeTaken) {
-		this.timeTaken = timeTaken;
-	}
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
-	
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer quizId;
 
+    private Integer userId;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "quiz_id")
+    private List<Questions> questions;
+
+    private Integer score;
+    private Integer totalQuestions;
+    private Integer correctAnswers;
+    private Double timeTaken;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
+
+    // Getters and Setters
+    public Integer getQuizId() {
+        return quizId;
+    }
+
+    public void setQuizId(Integer quizId) {
+        this.quizId = quizId;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public List<Questions> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(List<Questions> questions) {
+        this.questions = questions;
+    }
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
+    }
+
+    public Integer getTotalQuestions() {
+        return totalQuestions;
+    }
+
+    public void setTotalQuestions(Integer totalQuestions) {
+        this.totalQuestions = totalQuestions;
+    }
+
+    public Integer getCorrectAnswers() {
+        return correctAnswers;
+    }
+
+    public void setCorrectAnswers(Integer correctAnswers) {
+        this.correctAnswers = correctAnswers;
+    }
+
+    public Double getTimeTaken() {
+        return timeTaken;
+    }
+
+    public void setTimeTaken(Double timeTaken) {
+        this.timeTaken = timeTaken;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
 }

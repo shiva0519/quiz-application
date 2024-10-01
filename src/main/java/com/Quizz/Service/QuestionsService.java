@@ -10,7 +10,8 @@ public interface QuestionsService {
 
 	public boolean addQuetions(MultipartFile file) throws IOException;
 	public boolean updateQuestions(Questions que);
-	public boolean deleteQuestions(Questions que);
+
 	public boolean addQuetion(Questions que);
+	boolean deleteQuestions(int questionId);
 	
 }

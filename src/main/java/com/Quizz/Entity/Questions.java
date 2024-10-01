@@ -12,17 +12,18 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table
+@Table(name = "questions")
 public class Questions {
 	@Id
 	private int questionId;
 	private String question;
 	private String language;
 	private String difficulty;
-	@ElementCollection(fetch = FetchType.EAGER)
-	@CollectionTable(name = "question_options", joinColumns = @JoinColumn(name = "questionId"))
-	@Column(name = "option")
-	private List<String> options;
+	
+	 @ElementCollection(fetch = FetchType.EAGER)
+	    @CollectionTable(name = "question_options", joinColumns = @JoinColumn(name = "question_id"))
+	    @Column(name = "option")
+	    private List<String> options;
 	private String explanation;
 
 	public Questions(int questionId, String question,String language, String difficulty, List<String> options, String explanation) {

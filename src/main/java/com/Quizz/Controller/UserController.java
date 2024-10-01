@@ -16,17 +16,11 @@ import com.Quizz.Service.UserService;
 public class UserController {
 	
 	private UserService userservice;
-	
-	
-	
-	
+
 	public UserController(UserService userservice) {
 		super();
 		this.userservice = userservice;
 	}
-
-
-
 
 	@PostMapping("register")
 	public ResponseEntity<String> register(@RequestBody User user) {
